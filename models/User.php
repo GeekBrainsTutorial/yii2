@@ -12,7 +12,6 @@ use yii\web\IdentityInterface;
  * @property string $name
  * @property string $password write-only password
  * @property string $salt
- * @property string $auth_key
  * @property string $access_token
  * @property string $create_date
  *
@@ -28,7 +27,7 @@ class User extends ActiveRecord implements IdentityInterface
      */
     public static function tableName ()
     {
-        return 'blg_user';
+        return 'evrnt_user';
     }
     /**
      * @inheritdoc
@@ -37,9 +36,9 @@ class User extends ActiveRecord implements IdentityInterface
     {
         return [
             [['username', 'name', 'surname', 'password'], 'required'],
-            ['password', 'string', 'min' => self::MIN_LENGTH_PASS],
-            ['username', 'email'],
-            [['username', 'auth_key', 'access_token'], 'unique'],
+            [['password'], 'string', 'min' => self::MIN_LENGTH_PASS],
+            [['username'], 'email'],
+            [['username', 'access_token'], 'unique'],
         ];
     }
     /**
@@ -49,6 +48,7 @@ class User extends ActiveRecord implements IdentityInterface
     {
         return [
             'id' => _('ID'),
+            'username' => _('Логин'),
             'name' => _('Имя'),
             'surname' => _('Фамилия'),
             'password' => _('Пароль'),
@@ -138,7 +138,7 @@ class User extends ActiveRecord implements IdentityInterface
      */
     public function getAuthKey ()
     {
-        return $this->auth_key;
+        return $this->access_token;
     }
     /**
      * @inheritdoc
@@ -171,6 +171,6 @@ class User extends ActiveRecord implements IdentityInterface
      */
     public function generateAuthKey ()
     {
-        $this->auth_key = Yii::$app->security->generateRandomString();
+        $this->access_token = Yii::$app->security->generateRandomString();
     }
 }

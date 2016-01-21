@@ -38,6 +38,12 @@ $this->params['breadcrumbs'][] = $this->title;
             </div>
         </div>
 
+        <div class="form-group">
+            <div class="col-lg-offset-1 col-lg-11">
+                <a href="/user/create" class="btn btn-primary">Sign up</a>
+            </div>
+        </div>
+
     <?php ActiveForm::end(); ?>
 
     <div class="col-lg-offset-1" style="color:#999;">

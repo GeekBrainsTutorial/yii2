@@ -93,12 +93,4 @@ class SiteController extends Controller
     {
         return $this->render('about');
     }
-
-    public function actionGetgoodsbyemailprovider($id)
-    {
-        Goods::find()->
-            withEmailProvider($id)
-            ->asArray()
-            ->all();
-    }
 }
