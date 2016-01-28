@@ -9,11 +9,35 @@ namespace app\models\query;
  */
 class AccessQuery extends \yii\db\ActiveQuery
 {
-    /*public function active()
+    /**
+     * Condition with note_id
+     * @param $note_id
+     * @return $this
+     */
+    public function withNote($note_id)
     {
-        $this->andWhere('[[status]]=1');
-        return $this;
-    }*/
+        return $this->andWhere(
+            'note_id = :note_id',
+            [
+                ":note_id" => $note_id
+            ]
+        );
+    }
+
+    /**
+     * Condition with user_id
+     * @param $user_id
+     * @return $this
+     */
+    public function withUser($user_id)
+    {
+        return $this->andWhere(
+            'user_id = :user_id',
+            [
+                ":user_id" => $user_id
+            ]
+        );
+    }
 
     /**
      * @inheritdoc

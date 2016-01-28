@@ -13,6 +13,9 @@ use Yii;
  */
 class Access extends \yii\db\ActiveRecord
 {
+    const ACCESS_CREATOR = 1;
+    const ACCESS_GUEST = 2;
+
     /**
      * @inheritdoc
      */
@@ -42,6 +45,27 @@ class Access extends \yii\db\ActiveRecord
             'note_id' => Yii::t('app', 'Note ID'),
             'user_id' => Yii::t('app', 'User ID'),
         ];
+    }
+
+    /**
+     * Check access current user by note
+     * @param Note $model
+     * @return bool|int
+     */
+    public static function checkAccess($model)
+    {
+        if($model->creator == Yii::$app->user->id)
+        {
+            return self::ACCESS_CREATOR;
+        }
+        $accessNote = self::find()
+            ->withNote($model->id)
+            ->withUser(Yii::$app->user->id)
+            ->exists();
+        if($accessNote)
+            return self::ACCESS_GUEST;
+
+        return false;
     }
 
     /**
