@@ -10,6 +10,9 @@ use Yii;
  * @property integer $id
  * @property integer $note_id
  * @property integer $user_id
+ *
+ * @property Note $note
+ * @property User $user
  */
 class Access extends \yii\db\ActiveRecord
 {
@@ -66,6 +69,22 @@ class Access extends \yii\db\ActiveRecord
             return self::ACCESS_GUEST;
 
         return false;
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getNote ()
+    {
+        return $this->hasMany(Note::className(), ['note_id' => 'id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getUser ()
+    {
+        return $this->hasMany(User::className(), ['user_id' => 'id']);
     }
 
     /**
