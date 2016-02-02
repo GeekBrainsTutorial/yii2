@@ -2,6 +2,7 @@
 
 namespace app\models\search;
 
+use app\models\Access;
 use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
@@ -12,6 +13,8 @@ use app\models\Note;
  */
 class NoteSearch extends Note
 {
+    public $access;
+
     /**
      * @inheritdoc
      */
@@ -19,8 +22,13 @@ class NoteSearch extends Note
     {
         return [
             [['id', 'creator'], 'integer'],
-            [['text', 'date_create'], 'safe'],
+            [['text', 'date_create', 'access'], 'safe'],
         ];
+    }
+
+    public function attributes()
+    {
+        return array_merge(parent::attributes(), ['access']);
     }
 
     /**
@@ -47,6 +55,13 @@ class NoteSearch extends Note
             'query' => $query,
         ]);
 
+        $query->joinWith(['access']);
+
+        $dataProvider->sort->attributes['access'] = [
+            'asc' => ['evrnt_access.user_id' => SORT_ASC],
+            'desc' => ['evrnt_access.user_id' => SORT_DESC],
+        ];
+
         $this->load($params);
 
         if (!$this->validate()) {
@@ -56,12 +71,13 @@ class NoteSearch extends Note
         }
 
         $query->andFilterWhere([
-            'id' => $this->id,
-            'creator' => $this->creator,
-            'date_create' => $this->date_create,
+            'evrnt_note.id' => $this->id,
+            'evrnt_note.creator' => $this->creator,
+            'evrnt_note.date_create' => $this->date_create,
+            'evrnt_access.user_id' => $this->access['user_id'],
         ]);
 
-        $query->andFilterWhere(['like', 'text', $this->text]);
+        $query->andFilterWhere(['like', 'evrnt_note.text', $this->text]);
 
         return $dataProvider;
     }

@@ -48,10 +48,32 @@ class NoteController extends Controller
     {
         $searchModel = new NoteSearch();
         $dataProvider = $searchModel->search([
-            'NoteSearch'=> array_merge(
-                ['creator' => Yii::$app->user->id],
-                Yii::$app->request->queryParams
-            )
+            'NoteSearch'=> [
+                'creator' => Yii::$app->user->id
+            ]
+        ]);
+
+        return $this->render('index', [
+            'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider,
+        ]);
+    }
+
+    /**
+     * Lists friend Note models.
+     * @param int $id
+     * @return mixed
+     */
+    public function actionFriendnotes($id)
+    {
+        $searchModel = new NoteSearch();
+        $dataProvider = $searchModel->search([
+            'NoteSearch' => [
+                'creator' => $id,
+                'access' => [
+                    'user_id' => Yii::$app->user->id
+                ]
+            ]
         ]);
 
         return $this->render('index', [
