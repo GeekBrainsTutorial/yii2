@@ -13,6 +13,7 @@ use Yii;
  * @property string $date_create
  *
  * @property Access $access
+ * @property User $user
  */
 class Note extends \yii\db\ActiveRecord
 {
@@ -71,6 +72,14 @@ class Note extends \yii\db\ActiveRecord
     public function getAccess ()
     {
         return $this->hasMany(Access::className(), ['note_id' => 'id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getUser ()
+    {
+        return $this->hasOne(User::className(), ['id' => 'creator']);
     }
 
     /**

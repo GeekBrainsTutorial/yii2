@@ -47,6 +47,7 @@ class Access extends \yii\db\ActiveRecord
             'id' => Yii::t('app', 'ID'),
             'note_id' => Yii::t('app', 'Note ID'),
             'user_id' => Yii::t('app', 'User ID'),
+            'noteCreator' => Yii::t('app', 'Note creator'),
         ];
     }
 
@@ -76,7 +77,15 @@ class Access extends \yii\db\ActiveRecord
      */
     public function getNote ()
     {
-        return $this->hasMany(Note::className(), ['note_id' => 'id']);
+        return $this->hasOne(Note::className(), ['id' => 'note_id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getNoteCreator ()
+    {
+        return $this->note->creator;
     }
 
     /**
@@ -84,7 +93,7 @@ class Access extends \yii\db\ActiveRecord
      */
     public function getUser ()
     {
-        return $this->hasMany(User::className(), ['user_id' => 'id']);
+        return $this->hasMany(User::className(), ['id' => 'user_id']);
     }
 
     /**

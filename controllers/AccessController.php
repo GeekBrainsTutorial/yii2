@@ -4,7 +4,7 @@ namespace app\controllers;
 
 use Yii;
 use app\models\Access;
-use app\models\search\AccessSeach;
+use app\models\search\AccessSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -30,10 +30,12 @@ class AccessController extends Controller
      * Lists all Access models.
      * @return mixed
      */
-    public function actionIndex()
+    public function actionFriendslist()
     {
-        $searchModel = new AccessSeach();
-        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        $searchModel = new AccessSearch();
+        $dataProvider = $searchModel->search(
+            Yii::$app->request->queryParams
+        );
 
         return $this->render('index', [
             'searchModel' => $searchModel,
