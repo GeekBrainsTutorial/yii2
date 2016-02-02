@@ -11,6 +11,8 @@ use Yii;
  * @property string $text
  * @property integer $creator
  * @property string $date_create
+ *
+ * @property Access $access
  */
 class Note extends \yii\db\ActiveRecord
 {
@@ -61,6 +63,14 @@ class Note extends \yii\db\ActiveRecord
         }
         parent::beforeSave($insert);
         return true;
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getAccess ()
+    {
+        return $this->hasMany(Access::className(), ['note_id' => 'id']);
     }
 
     /**
