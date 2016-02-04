@@ -7,7 +7,7 @@ use yii\helpers\Html;
 /* @var $model app\models\Access */
 
 $this->title = Yii::t('app', 'Create Access');
-$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Accesses'), 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Accesses'), 'url' => ['/access/index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="access-create">

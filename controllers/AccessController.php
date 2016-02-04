@@ -5,6 +5,7 @@ namespace app\controllers;
 use Yii;
 use app\models\Access;
 use app\models\search\AccessSearch;
+use yii\filters\AccessControl;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -17,6 +18,17 @@ class AccessController extends Controller
     public function behaviors()
     {
         return [
+            'access' => [
+                'class' => AccessControl::className(),
+                'only' => ['index', 'friendslist', 'create', 'update', 'delete'],
+                'rules' => [
+                    [
+                        'actions' => ['index', 'friendslist', 'create', 'update', 'delete'],
+                        'allow' => true,
+                        'roles' => ['@'],
+                    ],
+                ],
+            ],
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [
@@ -30,10 +42,27 @@ class AccessController extends Controller
      * Lists all Access models.
      * @return mixed
      */
+    public function actionIndex()
+    {
+        $searchModel = new AccessSearch();
+        $dataProvider = $searchModel->searchIndex(
+            Yii::$app->request->queryParams
+        );
+
+        return $this->render('index', [
+            'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider,
+        ]);
+    }
+
+    /**
+     * Lists all Access models.
+     * @return mixed
+     */
     public function actionFriendslist()
     {
         $searchModel = new AccessSearch();
-        $dataProvider = $searchModel->search(
+        $dataProvider = $searchModel->searchFriends(
             Yii::$app->request->queryParams
         );
 
@@ -60,9 +89,10 @@ class AccessController extends Controller
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
-    public function actionCreate()
+    public function actionCreate($id)
     {
         $model = new Access();
+        $model->note_id = $id;
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);

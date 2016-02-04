@@ -22,10 +22,10 @@ class NoteController extends Controller
         return [
             'access' => [
                 'class' => AccessControl::className(),
-                'only' => ['mynotes', 'create', 'update', 'delete'],
+                'only' => ['mynotes', 'friendnotes', 'create', 'update', 'delete'],
                 'rules' => [
                     [
-                        'actions' => ['mynotes', 'create', 'update', 'delete'],
+                        'actions' => ['mynotes', 'friendnotes', 'create', 'update', 'delete'],
                         'allow' => true,
                         'roles' => ['@'],
                     ],

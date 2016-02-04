@@ -13,24 +13,22 @@ $this->params['breadcrumbs'][] = $this->title;
 <div class="access-index">
 
     <h1><?= Html::encode($this->title) ?></h1>
-    <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
-
-    <p>
-        <?= Html::a(Yii::t('app', 'Create Access'), ['create'], ['class' => 'btn btn-success']) ?>
-    </p>
 
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
+            'id',
+            'note_id',
             [
                 'attribute' => 'noteCreator',
+                'label' => "Разрешено",
                 'format' => 'raw',
                 'value' => function ($data) {
                     return Html::a(
-                        $data->note->user->name . " " . $data->note->user->surname,
-                        ['/note/friendnotes/'.$data->note->user->id]
+                        $data->user->name . " " . $data->user->surname,
+                        ['/note/friendnotes/'.$data->user->id]
                     );
                 },
             ],
