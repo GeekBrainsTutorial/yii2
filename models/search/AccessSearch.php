@@ -14,7 +14,7 @@ use app\models\Access;
 class AccessSearch extends Access
 {
     /**
-     * @var Note
+     * @var string
      */
     public $noteCreator;
 

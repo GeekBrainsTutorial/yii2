@@ -2,11 +2,14 @@
 
 namespace app\controllers;
 
+use app\models\Note;
 use Yii;
 use app\models\Access;
 use app\models\search\AccessSearch;
 use yii\filters\AccessControl;
+use yii\web\BadRequestHttpException;
 use yii\web\Controller;
+use yii\web\ForbiddenHttpException;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
@@ -87,20 +90,29 @@ class AccessController extends Controller
     /**
      * Creates a new Access model.
      * If creation is successful, the browser will be redirected to the 'view' page.
-     * @return mixed
+     * @param $id
+     * @return string|\yii\web\Response
+     * @throws ForbiddenHttpException
      */
     public function actionCreate($id)
     {
-        $model = new Access();
-        $model->note_id = $id;
+        $note = Note::findOne($id);
+        if($note->creator == Yii::$app->user->id) {
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
-        } else {
-            return $this->render('create', [
-                'model' => $model,
-            ]);
+            $model = new Access();
+
+            $model->load(Yii::$app->request->post());
+            $model->note_id = $id;
+
+            if ($model->validate() && $model->save()) {
+                return $this->redirect(['view', 'id' => $model->id]);
+            } else {
+                return $this->render('create', [
+                    'model' => $model,
+                ]);
+            }
         }
+        throw new ForbiddenHttpException("Not allowed share notes other people!");
     }
 
     /**
