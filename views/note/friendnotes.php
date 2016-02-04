@@ -15,8 +15,10 @@ $this->params['breadcrumbs'][] = $this->title;
     <?= ListView::widget([
         'dataProvider' => $dataProvider,
         'itemOptions' => ['class' => 'item'],
-        'itemView' => function ($model, $key, $index, $widget) {
-            return Html::a(Html::encode($model->text), ['view', 'id' => $model->id]);
+        'itemView' => function ($model) {
+            return $this->render('note_template', [
+                'model' => $model,
+            ]);
         },
     ]) ?>
 

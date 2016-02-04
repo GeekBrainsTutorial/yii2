@@ -12,9 +12,6 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="note-index">
 
-    <h1><?= Html::encode($this->title) ?></h1>
-<!--    --><?php //echo $this->render('_search', ['model' => $searchModel]); ?>
-
     <p>
         <?= Html::a(Yii::t('app', 'Create Note'), ['create'], ['class' => 'btn btn-success']) ?>
     </p>
@@ -22,8 +19,10 @@ $this->params['breadcrumbs'][] = $this->title;
     <?= ListView::widget([
         'dataProvider' => $dataProvider,
         'itemOptions' => ['class' => 'item'],
-        'itemView' => function ($model, $key, $index, $widget) {
-            return Html::a(Html::encode($model->text), ['view', 'id' => $model->id]);
+        'itemView' => function ($model) {
+            return $this->render('note_template', [
+                'model' => $model,
+            ]);
         },
     ]) ?>
 
