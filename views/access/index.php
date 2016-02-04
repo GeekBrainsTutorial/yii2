@@ -24,12 +24,16 @@ $this->params['breadcrumbs'][] = $this->title;
         'filterModel' => $searchModel,
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
-
-            'id',
-            'note_id',
-            'user_id',
-            'noteCreator',
-
+            [
+                'attribute' => 'noteCreator',
+                'format' => 'raw',
+                'value' => function ($data) {
+                    return Html::a(
+                        $data->note->user->name . " " . $data->note->user->surname,
+                        ['/note/friendnotes/'.$data->note->user->id]
+                    );
+                },
+            ],
             ['class' => 'yii\grid\ActionColumn'],
         ],
     ]); ?>

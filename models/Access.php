@@ -11,6 +11,8 @@ use Yii;
  * @property integer $note_id
  * @property integer $user_id
  *
+ * @property int $noteCount
+ *
  * @property Note $note
  * @property User $user
  */
@@ -48,6 +50,7 @@ class Access extends \yii\db\ActiveRecord
             'note_id' => Yii::t('app', 'Note ID'),
             'user_id' => Yii::t('app', 'User ID'),
             'noteCreator' => Yii::t('app', 'Note creator'),
+            'noteCount' => Yii::t('app', 'Note count'),
         ];
     }
 
@@ -83,17 +86,9 @@ class Access extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getNoteCreator ()
-    {
-        return $this->note->creator;
-    }
-
-    /**
-     * @return \yii\db\ActiveQuery
-     */
     public function getUser ()
     {
-        return $this->hasMany(User::className(), ['id' => 'user_id']);
+        return $this->hasOne(User::className(), ['id' => 'user_id']);
     }
 
     /**

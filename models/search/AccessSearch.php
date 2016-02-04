@@ -53,6 +53,10 @@ class AccessSearch extends Access
             'query' => $query,
         ]);
 
+        $query->joinWith(['note', 'note.user']);
+
+        $query->groupBy('evrnt_note.creator');
+
         $dataProvider->sort->attributes['noteCreator'] = [
             'asc' => ['evrnt_note.creator' => SORT_ASC],
             'desc' => ['evrnt_note.creator' => SORT_DESC],
@@ -61,19 +65,18 @@ class AccessSearch extends Access
         $this->load($params);
 
         if (!($this->load($params) && $this->validate())) {
-            $query->joinWith(['note']);
             return $dataProvider;
         }
 
         $query->andFilterWhere([
             'evrnt_access.id' => $this->id,
             'evrnt_access.note_id' => $this->note_id,
-            'evrnt_access.user_id' => $this->user_id,
+            'evrnt_access.user_id' => $this->user_id
         ]);
 
-        $query->joinWith(['noteCreator' => function ($q) {
-            $q->where(['evrnt_note.creator' => $this->noteCreator]);
-        }]);
+        $query->andWhere('evrnt_user.name LIKE "%' . $this->noteCreator . '%" ' .
+            'OR evrnt_user.surname LIKE "%' . $this->noteCreator . '%"'
+        );
 
         return $dataProvider;
     }
