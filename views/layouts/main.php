@@ -41,7 +41,7 @@ AppAsset::register($this);
             ],
             !Yii::$app->user->isGuest ?
                 [
-                    ['label' => 'Friends notes', 'url' => ['/note/guest']],
+                    ['label' => 'Friends notes', 'url' => ['/access/friendslist']],
                     [
                         'label' => 'Logout (' . Yii::$app->user->identity->username . ')',
                         'url' => ['/site/logout'],

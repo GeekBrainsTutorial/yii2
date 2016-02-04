@@ -30,7 +30,14 @@ $this->params['breadcrumbs'][] = $this->title;
         'attributes' => [
             'id',
             'text:ntext',
-            'creator',
+            [
+                'attribute' => 'creator',
+                'format' => 'raw',
+                'value' => Html::a(
+                    $model->user->name . " " . $model->user->surname,
+                    ['/note/mynotes/']
+                )
+            ],
             'date_create',
         ],
     ]) ?>

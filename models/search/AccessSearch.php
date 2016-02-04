@@ -47,7 +47,7 @@ class AccessSearch extends Access
      */
     public function search($params)
     {
-        $query = Access::find();
+        $query = Access::find()->withUser(Yii::$app->user->id);
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
@@ -70,8 +70,7 @@ class AccessSearch extends Access
 
         $query->andFilterWhere([
             'evrnt_access.id' => $this->id,
-            'evrnt_access.note_id' => $this->note_id,
-            'evrnt_access.user_id' => $this->user_id
+            'evrnt_access.note_id' => $this->note_id
         ]);
 
         $query->andWhere('evrnt_user.name LIKE "%' . $this->noteCreator . '%" ' .
