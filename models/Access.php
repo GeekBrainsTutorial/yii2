@@ -76,6 +76,16 @@ class Access extends \yii\db\ActiveRecord
     }
 
     /**
+     * Check current user is creator
+     * @param Note $model
+     * @return bool
+     */
+    public static function checkIsCreator ($model)
+    {
+        return self::checkAccess($model) == self::ACCESS_CREATOR;
+    }
+
+    /**
      * @return \yii\db\ActiveQuery
      */
     public function getNote ()

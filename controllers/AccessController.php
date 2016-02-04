@@ -37,7 +37,7 @@ class AccessController extends Controller
             Yii::$app->request->queryParams
         );
 
-        return $this->render('index', [
+        return $this->render('friendslist', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
         ]);
