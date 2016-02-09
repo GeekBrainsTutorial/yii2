@@ -9,7 +9,9 @@ use yii\grid\GridView;
 
 $this->title = Yii::t('app', 'Accesses');
 $this->params['breadcrumbs'][] = $this->title;
+
 ?>
+
 <div class="access-index">
 
     <?= GridView::widget([
