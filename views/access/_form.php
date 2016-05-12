@@ -6,6 +6,7 @@ use yii\web\JsExpression;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\Access */
+/* @var $usersForAutocomplete app\models\User */
 /* @var $form yii\widgets\ActiveForm */
 ?>
 
@@ -20,18 +21,10 @@ use yii\web\JsExpression;
                     'id' => 'autocomplete_user_id',
                     'name' => 'user_id',
                     'clientOptions' => [
-                        'source' => \app\models\User::find()
-                            ->select([
-                                'CONCAT(`name`, \' \', `surname`) as value',
-                                'CONCAT(`name`, \' \', `surname`) as label',
-                                'id'
-                            ])
-                            ->where("id != ".Yii::$app->user->id)
-                            ->asArray()
-                            ->all(),
-                            'select' => new JsExpression("function( event, ui ) {
-                                $('#access-user_id').val(ui.item.id);
-                             }")
+                        'source' => $usersForAutocomplete,
+                        'select' => new JsExpression("function( event, ui ) {
+                            $('#access-user_id').val(ui.item.id);
+                         }")
                     ],
                     'options' => [
                         'class' => 'form-control'

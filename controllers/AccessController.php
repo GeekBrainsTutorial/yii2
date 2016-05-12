@@ -3,11 +3,11 @@
 namespace app\controllers;
 
 use app\models\Note;
+use app\models\User;
 use Yii;
 use app\models\Access;
 use app\models\search\AccessSearch;
 use yii\filters\AccessControl;
-use yii\web\BadRequestHttpException;
 use yii\web\Controller;
 use yii\web\ForbiddenHttpException;
 use yii\web\NotFoundHttpException;
@@ -101,6 +101,16 @@ class AccessController extends Controller
 
             $model = new Access();
 
+            $usersForAutocomplete = User::find()
+                ->select([
+                    'CONCAT(`name`, \' \', `surname`) as value',
+                    'CONCAT(`name`, \' \', `surname`) as label',
+                    'id'
+                ])
+                ->where("id != ".Yii::$app->user->id)
+                ->asArray()
+                ->all();
+
             $model->load(Yii::$app->request->post());
             $model->note_id = $id;
 
@@ -109,6 +119,7 @@ class AccessController extends Controller
             } else {
                 return $this->render('create', [
                     'model' => $model,
+                    'usersForAutocomplete' => $usersForAutocomplete
                 ]);
             }
         }
@@ -125,11 +136,22 @@ class AccessController extends Controller
     {
         $model = $this->findModel($id);
 
+        $usersForAutocomplete = User::find()
+            ->select([
+                'CONCAT(`name`, \' \', `surname`) as value',
+                'CONCAT(`name`, \' \', `surname`) as label',
+                'id'
+            ])
+            ->where("id != ".Yii::$app->user->id)
+            ->asArray()
+            ->all();
+
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
             return $this->render('update', [
                 'model' => $model,
+                'usersForAutocomplete' => $usersForAutocomplete
             ]);
         }
     }

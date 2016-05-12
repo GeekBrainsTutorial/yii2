@@ -4,6 +4,7 @@ use yii\helpers\Html;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\Access */
+/* @var $usersForAutocomplete app\models\User */
 
 $this->title = Yii::t('app', 'Update {modelClass}: ', [
     'modelClass' => 'Access',
@@ -18,6 +19,7 @@ $this->params['breadcrumbs'][] = Yii::t('app', 'Update');
 
     <?= $this->render('_form', [
         'model' => $model,
+        'usersForAutocomplete' => $usersForAutocomplete
     ]) ?>
 
 </div>
