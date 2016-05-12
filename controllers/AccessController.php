@@ -8,6 +8,7 @@ use Yii;
 use app\models\Access;
 use app\models\search\AccessSearch;
 use yii\filters\AccessControl;
+use yii\web\BadRequestHttpException;
 use yii\web\Controller;
 use yii\web\ForbiddenHttpException;
 use yii\web\NotFoundHttpException;
@@ -92,11 +93,15 @@ class AccessController extends Controller
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @param $id
      * @return string|\yii\web\Response
+     * @throws BadRequestHttpException
      * @throws ForbiddenHttpException
      */
     public function actionCreate($id)
     {
         $note = Note::findOne($id);
+        if(!$note)
+            throw new BadRequestHttpException("Not exists note!");
+
         if($note->creator == Yii::$app->user->id) {
 
             $model = new Access();
