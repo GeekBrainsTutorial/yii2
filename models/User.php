@@ -173,4 +173,13 @@ class User extends ActiveRecord implements IdentityInterface
     {
         $this->access_token = Yii::$app->security->generateRandomString();
     }
+
+    /**
+     * @inheritdoc
+     * @return \app\models\query\UserQuery the active query used by this AR class.
+     */
+    public static function find()
+    {
+        return new \app\models\query\UserQuery(get_called_class());
+    }
 }

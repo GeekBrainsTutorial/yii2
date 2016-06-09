@@ -107,12 +107,8 @@ class AccessController extends Controller
             $model = new Access();
 
             $usersForAutocomplete = User::find()
-                ->select([
-                    'CONCAT(`name`, \' \', `surname`) as value',
-                    'CONCAT(`name`, \' \', `surname`) as label',
-                    'id'
-                ])
-                ->where("id != ".Yii::$app->user->id)
+                ->selectForAutocomplite()
+                ->notCurrent()
                 ->asArray()
                 ->all();
 
