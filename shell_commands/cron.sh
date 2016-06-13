@@ -1,3 +1,3 @@
 #!/usr/bin/env bash
 
-/path/to/progect/yii cron/clearln &> /path/to/progect/log/shell_log/clearln.log
+/home/master/Documents/yii2/yii cron/clearlh &> /home/master/Documents/yii2/log/clearln.log

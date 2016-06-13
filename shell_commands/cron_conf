@@ -1,1 +1,1 @@
-@midnight sh /path/to/project/shell_command/cron.sh
+@midnight sh /home/master/Documents/yii2/shell_commands/cron.sh
