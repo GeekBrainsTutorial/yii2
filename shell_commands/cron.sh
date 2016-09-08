@@ -1,3 +1,3 @@
 #!/usr/bin/env bash
 
-/home/master/Documents/yii2/yii cron/clearlh &> /home/master/Documents/yii2/log/clearln.log
+/home/master/Documents/stream7/yii2/yii cron/clearlh &> /home/master/Documents/stream7/yii2/log/clearln.log
