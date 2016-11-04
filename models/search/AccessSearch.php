@@ -115,9 +115,11 @@ class AccessSearch extends Access
             'evrnt_access.note_id' => $this->note_id
         ]);
 
-        $query->andWhere('evrnt_user.name LIKE "%' . $this->noteCreator . '%" ' .
-            'OR evrnt_user.surname LIKE "%' . $this->noteCreator . '%"'
-        );
+        $query->andFilterWhere([
+            'OR',
+            ['like', 'evrnt_user.name', $this->noteCreator],
+            ['like', 'evrnt_user.surname', $this->noteCreator],
+        ]);
 
         return $dataProvider;
     }
